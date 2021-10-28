@@ -27,6 +27,7 @@ export default {
       result20: '',
       result30: '',
       result40: '',
+      result45: '',
     }
   },
   methods: {

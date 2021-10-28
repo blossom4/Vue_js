@@ -42,4 +42,8 @@ export default {
 #todolist {
   cursor: pointer;
 }
+
+#todolist:hover {
+  color: #42b983;
+}
 </style>

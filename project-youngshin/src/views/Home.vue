@@ -1,8 +1,11 @@
 <template>
   <div class="d-flex justify-content-center">
-    <div class="mt-5 mb-3 col-4">
+    <div class="mb-3 col-4">
       <div class="d-flex justify-content-between">
-        <h3 class="">Todo List</h3>
+        <div class="d-flex">
+          <img src="@/assets/to-do-list.png" alt="to-do-list.png" class="logoImage mx-2">
+          <h3 class="">Todo List</h3>
+        </div>
         <p class="mt-2">진행률 {{ completedPercent }}%</p>
       </div>
       <TodoForm/>
