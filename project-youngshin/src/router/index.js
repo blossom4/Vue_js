@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '@/views/Home.vue'
+import TodoList from '@/views/TodoList.vue'
 import TheLunch from '@/views/TheLunch.vue'
 import TheLotto from '@/views/TheLotto.vue'
 import Youtube from '@/views/Youtube.vue'
@@ -9,9 +9,9 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
+    path: '/todolist',
+    name: 'TodoList',
+    component: TodoList
   },
   {
     path: '/lunch',

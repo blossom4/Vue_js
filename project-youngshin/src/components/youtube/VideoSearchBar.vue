@@ -17,6 +17,7 @@ export default {
   },
   methods: {
     searchVideo: function() {
+      this.$store.state.selectVideo = null
       this.$store.dispatch('searchVideo', this.query)
       this.query = ''
     },

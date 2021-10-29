@@ -39,7 +39,7 @@ export default {
     },
     videoPublishedAt: function() {
       return _.unescape(this.video.snippet.publishedAt).substring(0, 10)
-    }
+    },
   },
 }
 </script>

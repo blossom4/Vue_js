@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav" class="d-flex justify-content-center mb-5">
-      <router-link :to="{ name: 'Home' }">Home</router-link>
+      <router-link :to="{ name: 'TodoList' }">TodoList</router-link>
       <p class="mx-1">|</p>
       <router-link :to="{ name: 'Lunch' }">Lunch</router-link>
       <p class="mx-1">|</p>

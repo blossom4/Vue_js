@@ -7,10 +7,10 @@
           <h3 class="mb-3">Youtube</h3>
         </div>
         <VideoSearchBar/>
-        <VideoDetail/>
       </div>
     </div>
     <VideoList/>
+    <VideoDetail/>
   </div>
 </template>
 

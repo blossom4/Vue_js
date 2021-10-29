@@ -95,20 +95,30 @@ export default new Vuex.Store({
       })
     },
     // Youtube Getters
-    videoURL: function (state) {
+    videoURL: function(state) {
       if (state.selectVideo) {
         const videoId = state.selectVideo.id.videoId
         return `https://www.youtube.com/embed/${videoId}`
       }
     },
-    videoTitle: function (state) {
+    videoTitle: function(state) {
       if (state.selectVideo) {
         return _.unescape(state.selectVideo.snippet.title) 
       }
     },
-    videoDescription: function (state) {
+    videoDescription: function(state) {
       if (state.selectVideo) {
         return _.unescape(state.selectVideo.snippet.description)
+      }
+    },
+    videoChannelTitle: function(state) {
+      if (state.selectVideo) {
+        return _.unescape(state.selectVideo.snippet.channelTitle)
+      }
+    },
+    videoPublishedAt: function(state) {
+      if (state.selectVideo) {
+        return _.unescape(state.selectVideo.snippet.publishedAt).substring(0, 10)
       }
     },
   },
