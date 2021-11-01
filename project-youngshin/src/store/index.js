@@ -10,6 +10,8 @@ const API_KEY = process.env.VUE_APP_YOUTUBE_API_KEY
 
 export default new Vuex.Store({
   state: {
+    // Movie State
+    movies: [],
     // Todo List State
     todos: [
       {
@@ -27,6 +29,13 @@ export default new Vuex.Store({
     selectVideo: null,
   },
   mutations: {
+    // Movie Mutations
+    SEARCH_MOVIES(state, Search) {
+      state.movies = Search
+    },
+    RESET_MOVIES(state) {
+      state.movies = []
+    },
     // Todo List Mutations
     CREATE_TODO: function(state, todoItem) {
       state.todos.push(todoItem)
@@ -49,6 +58,23 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    // Movie Actions
+    searchMovies(context, payload) {
+      const { title, type, year } = payload
+      const OMDB_API_KEY = '7035c60c'
+      axios ({
+        methods: 'get',
+        url: `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=1`,
+        
+      })
+        .then((res) => {
+          context.commit('SEARCH_MOVIES', res.data.Search)
+          console.log(res.data.totalResults)
+        })
+    },
+    // resetMovies(context) {
+
+    // },
     // Todo List Actions
     createTodo: function(context, todoItem) {
       context.commit('CREATE_TODO', todoItem)
@@ -83,6 +109,10 @@ export default new Vuex.Store({
     },
   },
   getters: {
+    // Movie Getters
+    movieIds(state) {
+      return state.movies.map(m => m.imdbID)
+    },
     // Todo List Getters
     completedCount: function(state) {
       return state.todos.filter((todo) => {
