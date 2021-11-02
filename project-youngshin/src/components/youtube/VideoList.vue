@@ -1,5 +1,8 @@
 <template>
   <div class="container mb-5">
+    <div class="d-flex justify-content-center">
+      <div v-if="videoListLoading" class="spinner-border my-5" style="color: #42b983"></div>
+    </div>
     <div class="row">
       <VideoListItem
         v-for="video in searchVideos"
@@ -26,7 +29,10 @@ export default {
       } else {
         return this.$store.state.emptyVideoResult
       }
-    }
+    },
+    videoListLoading() {
+      return this.$store.state.videoListLoading
+    },
   }
 }
 </script>

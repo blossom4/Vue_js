@@ -40,7 +40,7 @@ export default {
 <style scoped>
 .iframeBox {
   width: 100%;
-  height: 450px;
+  height: 370px;
 }
 
 .iframeBox iframe {

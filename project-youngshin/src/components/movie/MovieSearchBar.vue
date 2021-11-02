@@ -51,8 +51,6 @@ export default {
   },
   methods: {
     searchMovies: function() {
-      console.log(this.number)
-      console.log(this.title)
       return this.$store.dispatch('searchMovies', {
         title: this.title,
         type: this.type,

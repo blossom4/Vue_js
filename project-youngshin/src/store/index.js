@@ -12,6 +12,9 @@ export default new Vuex.Store({
   state: {
     // Movie State
     movies: [],
+    message: 'Search for the Movie Title!',
+    movieListLoading: false,
+    selectMovie: null,
     // Todo List State
     todos: [
       {
@@ -27,11 +30,20 @@ export default new Vuex.Store({
     searchVideoResult: [],
     emptyVideoResult: [],
     selectVideo: null,
+    videoListLoading: false,
   },
   mutations: {
     // Movie Mutations
     SEARCH_MOVIES(state, Search) {
       state.movies = Search
+    },
+    ADD_MOVIES(state, Search) {
+      for (let i = 0; i < 10; i += 1) {
+        state.movies.push(Search[i])
+      }
+    },
+    GET_MOVIE_DETAIL(state, movieInfo) {
+      state.selectMovie = movieInfo
     },
     RESET_MOVIES(state) {
       state.movies = []
@@ -60,16 +72,50 @@ export default new Vuex.Store({
   actions: {
     // Movie Actions
     searchMovies(context, payload) {
-      const { title, type, year } = payload
+      if (this.state.movieListLoading) {
+        return
+      }
+
+      this.state.movieListLoading = true
+      this.state.movies = []
+      this.state.message = ''
+
+      const { title, type, number, year } = payload
       const OMDB_API_KEY = '7035c60c'
-      axios ({
-        methods: 'get',
-        url: `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=1`,
-        
+      const pageLength = Math.ceil(number / 10)
+
+      for (let page = 1; page < pageLength + 1; page += 1) {
+        axios ({
+          methods: 'get',
+          url: `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`,
+        })
+          .then((res) => {
+            if (page == 1) {
+              context.commit('SEARCH_MOVIES', _.uniqBy(res.data.Search, 'imdbID'))
+            } else {
+              context.commit('ADD_MOVIES', _.uniqBy(res.data.Search, 'imdbID'))
+            }
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+          .finally(() => {
+            this.state.movieListLoading = false
+          }) 
+          
+      }
+    },
+    getMovieDetail(context, payload) {
+      const OMDB_API_KEY = '7035c60c'
+      const { imdbID } = payload
+      console.log(imdbID)
+      axios({
+        method: 'get',
+        url: `http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${imdbID}`,
       })
         .then((res) => {
-          context.commit('SEARCH_MOVIES', res.data.Search)
-          console.log(res.data.totalResults)
+          console.log(res.data)
+          context.commit('GET_MOVIE_DETAIL', res.data)
         })
     },
     // resetMovies(context) {
@@ -87,6 +133,10 @@ export default new Vuex.Store({
     },
     // Youtube Actions
     searchVideo: function(context, q) {
+      if (this.state.videoListLoading) {
+        return
+      }
+      this.state.videoListLoading = true
       const params = {
         part: 'snippet',
         key: API_KEY,
@@ -101,7 +151,9 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit('SEARCH_VIDEO', res.data.items)
-          console.log(res.data.items)
+        })
+        .finally(() => {
+          this.state.videoListLoading = false
         })
     },
     selectVideo: function(context, video) {
